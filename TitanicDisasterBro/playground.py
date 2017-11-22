@@ -21,7 +21,7 @@ from sklearn.tree import DecisionTreeClassifier
 def main():
     train_df = pd.read_csv('data_files/train.csv')
     test_df = pd.read_csv('data_files/test.csv')
-    combined = [train_df, test_df]
+    combine = [train_df, test_df]
     # print('{}'.format(train_df.columns.values))
     # print('{}'.format(test_df.columns.values))
     # print('{}'.format(train_df.head()))
@@ -69,12 +69,103 @@ def main():
     # grid.map(sns.pointplot, 'Pclass', 'Survived', 'Sex', palette='deep')
     # grid.add_legend()
 
-    grid = sns.FacetGrid(train_df, col='Embarked', hue='Survived', palette={0: 'k', 1: 'w'})
-    # grid = sns.FacetGrid(train_df, row='Embarked', col='Survived', size=2.2, aspect=1.6)
-    grid.map(sns.barplot, 'Sex', 'Fare', alpha=.5, ci=None)
-    grid.add_legend()
+    # grid = sns.FacetGrid(train_df, col='Embarked', hue='Survived', palette={0: 'k', 1: 'w'})
+    # # grid = sns.FacetGrid(train_df, row='Embarked', col='Survived', size=2.2, aspect=1.6)
+    # grid.map(sns.barplot, 'Sex', 'Fare', alpha=.5, ci=None)
+    # grid.add_legend()
 
-    plt.show()
+    # plt.show()
+
+    #     lets do come cleanup of data
+    print('Data before cleanup: {} {} {} {}'.format(train_df.shape, test_df.shape, combine[0].shape, combine[1].shape))
+    train_df = train_df.drop(['Ticket', 'Cabin'], axis=1)
+    test_df = test_df.drop(['Ticket', 'Cabin'], axis=1)
+    combine = [train_df, test_df]
+    print(
+        'Data after cleanup: train shape: {} test shape: {} combine shapes:{} {}'.format(train_df.shape, test_df.shape,
+                                                                                         combine[0].shape,
+                                                                                         combine[1].shape))
+
+    # extracting titles from names and replacement
+    for data_set in combine:
+        data_set['Title'] = data_set.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
+    print('{}'.format(pd.crosstab(train_df['Title'], train_df['Sex'])))
+
+    for data_set in combine:
+        data_set['Title'] = data_set['Title'].replace(['Lady', 'Countess', 'Capt', 'Col', 'Don', 'Dr',
+                                                       'Major', 'Rev', 'Sir', 'Jonkheer', 'Dona'], 'Rare')
+        data_set['Title'] = data_set['Title'].replace(['Mlle', 'Ms'], 'Miss')
+        data_set['Title'] = data_set['Title'].replace('Mme', 'Mrs')
+
+    print('{}'.format(pd.crosstab(train_df['Title'], train_df['Sex'])))
+
+    print('{}'.format(train_df[['Title', 'Survived']].groupby(['Title'], as_index=False).mean()))
+    title_mapping = {"Mr": 1, "Miss": 2, "Mrs": 3, "Master": 4, "Rare": 5}
+    for data_set in combine:
+        data_set['Title'] = data_set['Title'].map(title_mapping)
+        data_set['Title'] = data_set['Title'].fillna(0)
+
+    print('{}'.format(combine[0].head()))
+
+    train_df.drop(train_df[['Name', 'PassengerId']], axis=1, inplace=True)
+    test_df.drop(test_df[['Name']], axis=1, inplace=True)
+
+    # print('{}'.format(combine[0].head()))
+    # print('{}'.format(combine[1].head()))
+
+    #     further changing features to numerical, ex sex: male -> 0, female -> 1
+    sex_mapping = {"male": 0, "female": 1}
+    for data_set in combine:
+        data_set['Sex'] = data_set['Sex'].map(sex_mapping).astype(int)
+
+    # print('{}'.format(combine[0].head()))
+
+    #     we will guess NaN values of age through median,
+    #     but for given record from correlation between gender and Pclass of all passengers
+    # grid = sns.FacetGrid(train_df, row='Pclass', col='Sex', size=2.2, aspect=1.6)
+    # grid.map(plt.hist, 'Age', alpha=.5, bins=20)
+    # grid.add_legend()
+    # plt.show()
+
+    guess_ages = np.zeros((2, 3))  # for every combination of sex and Pclass
+    for data_set in combine:
+        for i in [0, 1]:  # gender
+            for j in [1, 2, 3]:  # Pclass
+                guess_df = data_set[(data_set['Sex'] == i) & (data_set['Pclass'] == j)]['Age'].dropna()
+                # alternative for median
+                # age_mean = guess_df.mean()
+                # age_std = guess_df.std()
+                # age_guess = rnd.uniform(age_mean - age_std, age_mean + age_std)
+                age_guess = guess_df.median()
+                guess_ages[i, j - 1] = int(age_guess / 0.5 + 0.5) * 0.5
+        # now assigning computed age guesses
+        for i in [0, 1]:  # gender
+            for j in [1, 2, 3]:  # Pclass
+                data_set.loc[(data_set.Age.isnull()) & (data_set.Sex == i) & (data_set.Pclass == j), 'Age'] = \
+                    guess_ages[
+                        i, j - 1]
+        data_set['Age'] = data_set['Age'].astype(int)
+
+    # print('{}'.format(train_df.head()))
+    train_df['AgeBand'] = pd.cut(train_df['Age'], 5)
+    print('{}'.format(train_df.head()))
+    print('{}'.format(
+        train_df[['AgeBand', 'Survived']].groupby(['AgeBand'], as_index=False).mean().sort_values(by='AgeBand')
+    )
+    )
+
+    #     replacing age values based on bands
+    for data_set in combine:
+        data_set.loc[data_set['Age'] <= 16, 'Age'] = 0
+        data_set.loc[(data_set['Age'] > 16) & (data_set['Age'] <= 32), 'Age'] = 1
+        data_set.loc[(data_set['Age'] > 32) & (data_set['Age'] <= 48), 'Age'] = 2
+        data_set.loc[(data_set['Age'] > 48) & (data_set['Age'] <= 64), 'Age'] = 3
+        data_set.loc[data_set['Age'] > 64, 'Age'] = 4
+
+    print('{}'.format(train_df.head()))
+    train_df.drop(['AgeBand'], 1, inplace=True)
+    combine = [train_df, test_df]
+    print(train_df.head())
 
 
 if __name__ == '__main__':

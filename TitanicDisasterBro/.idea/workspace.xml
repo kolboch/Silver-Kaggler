@@ -21,10 +21,15 @@
       <file leaf-file-name="playground.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/playground.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="76" column="14" lean-forward="true" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+            <state relative-caret-position="216">
+              <caret line="167" column="26" lean-forward="true" selection-start-line="167" selection-start-column="26" selection-end-line="167" selection-end-column="26" />
               <folding>
                 <element signature="e#30#49#0" expanded="true" />
+                <element signature="e#934#949#0" expanded="false" />
+                <element signature="e#1122#1142#0" expanded="false" />
+                <element signature="e#2103#2148#0" expanded="false" />
+                <element signature="e#4812#4851#0" expanded="false" />
+                <element signature="e#5126#5165#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -67,6 +72,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -110,7 +116,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="RecentsManager">
@@ -310,7 +315,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37066245" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="0" y="152" width="1366" height="424" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34700316" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="0" y="152" width="1366" height="424" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24963397" sideWeight="0.5190476" order="0" side_tool="true" content_ui="tabs" />
@@ -357,6 +362,26 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -367,6 +392,11 @@
           <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding>
             <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -377,6 +407,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -387,6 +422,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -397,6 +437,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -409,12 +454,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://D:/python/anaconda/Lib/site-packages/pandas/core/generic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="2743" column="0" lean-forward="false" selection-start-line="2743" selection-start-column="0" selection-end-line="2743" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/playground.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="76" column="14" lean-forward="true" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+        <state relative-caret-position="216">
+          <caret line="167" column="26" lean-forward="true" selection-start-line="167" selection-start-column="26" selection-end-line="167" selection-end-column="26" />
           <folding>
             <element signature="e#30#49#0" expanded="true" />
+            <element signature="e#934#949#0" expanded="false" />
+            <element signature="e#1122#1142#0" expanded="false" />
+            <element signature="e#2103#2148#0" expanded="false" />
+            <element signature="e#4812#4851#0" expanded="false" />
+            <element signature="e#5126#5165#0" expanded="false" />
           </folding>
         </state>
       </provider>
