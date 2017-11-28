@@ -186,9 +186,27 @@ def main():
     for dataset in combine:
         dataset['Age*Class'] = dataset.Age * dataset.Pclass
 
-    print('{}'.format(train_df.head()))
-    print('{}'.format(train_df[['Age*Class', 'Survived']].groupby(['Age*Class'], as_index=False).mean()))
+    # print('{}'.format(train_df.head()))
+    # print('{}'.format(train_df[['Age*Class', 'Survived']].groupby(['Age*Class'], as_index=False).mean()))
 
+    print('{}'.format(train_df[['Embarked', 'Survived']].groupby(['Embarked']).count()))
+    print('count of all: {}'.format(train_df.count()))
+
+    most_freq_port = train_df.Embarked.dropna().mode()[0]
+    print('{}'.format(most_freq_port))
+
+    for dataset in combine:
+        dataset['Embarked'] = dataset['Embarked'].fillna(most_freq_port)
+
+    result = train_df[['Embarked', 'Survived']].groupby(['Embarked'], as_index=False).mean().sort_values(by='Survived',
+                                                                                                         ascending=False)
+    print('{}'.format(result))
+
+#     converting embarked to numerical feature: S -> 0, C -> 1, Q -> 2
+    for dataset in combine:
+        dataset['Embarked'] = dataset['Embarked'].map({'S': 0, 'C': 1, 'Q': 2}).astype(int)
+
+    print('{}'.format(train_df.head()))
 
 if __name__ == '__main__':
     pd.set_option('display.width', 300)
