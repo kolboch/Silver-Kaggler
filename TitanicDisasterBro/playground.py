@@ -148,11 +148,11 @@ def main():
 
     # print('{}'.format(train_df.head()))
     train_df['AgeBand'] = pd.cut(train_df['Age'], 5)
-    print('{}'.format(train_df.head()))
-    print('{}'.format(
-        train_df[['AgeBand', 'Survived']].groupby(['AgeBand'], as_index=False).mean().sort_values(by='AgeBand')
-    )
-    )
+    # print('{}'.format(train_df.head()))
+    # print('{}'.format(
+    #     train_df[['AgeBand', 'Survived']].groupby(['AgeBand'], as_index=False).mean().sort_values(by='AgeBand')
+    # )
+    # )
 
     #     replacing age values based on bands
     for data_set in combine:
@@ -162,10 +162,32 @@ def main():
         data_set.loc[(data_set['Age'] > 48) & (data_set['Age'] <= 64), 'Age'] = 3
         data_set.loc[data_set['Age'] > 64, 'Age'] = 4
 
-    print('{}'.format(train_df.head()))
     train_df.drop(['AgeBand'], 1, inplace=True)
     combine = [train_df, test_df]
-    print(train_df.head())
+
+    for dataset in combine:
+        dataset['FamilySize'] = dataset['SibSp'] + dataset[
+            'Parch'] + 1  # creating new feature family size, by combining parent-child, sibling-spouse
+
+    print('{}'.format(train_df[['FamilySize', 'Survived']].groupby(['FamilySize'], as_index=True).agg(
+        ['mean', 'count']).reset_index().sort_values([('Survived', 'mean')], ascending=False)))
+
+    for dataset in combine:
+        dataset['IsAlone'] = 0
+        dataset.loc[dataset['FamilySize'] == 1, 'IsAlone'] = 1
+
+    print('{}'.format(train_df.loc[train_df['IsAlone'] == 1, ['IsAlone']].count()))
+
+    train_df = train_df.drop(['Parch', 'SibSp', 'FamilySize'], axis=1)
+    test_df = test_df.drop(['Parch', 'SibSp', 'FamilySize'], axis=1)
+
+    combine = [train_df, test_df]
+
+    for dataset in combine:
+        dataset['Age*Class'] = dataset.Age * dataset.Pclass
+
+    print('{}'.format(train_df.head()))
+    print('{}'.format(train_df[['Age*Class', 'Survived']].groupby(['Age*Class'], as_index=False).mean()))
 
 
 if __name__ == '__main__':
