@@ -89,7 +89,7 @@ def main():
     # extracting titles from names and replacement
     for data_set in combine:
         data_set['Title'] = data_set.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
-    print('{}'.format(pd.crosstab(train_df['Title'], train_df['Sex'])))
+    # print('{}'.format(pd.crosstab(train_df['Title'], train_df['Sex'])))
 
     for data_set in combine:
         data_set['Title'] = data_set['Title'].replace(['Lady', 'Countess', 'Capt', 'Col', 'Don', 'Dr',
@@ -97,15 +97,15 @@ def main():
         data_set['Title'] = data_set['Title'].replace(['Mlle', 'Ms'], 'Miss')
         data_set['Title'] = data_set['Title'].replace('Mme', 'Mrs')
 
-    print('{}'.format(pd.crosstab(train_df['Title'], train_df['Sex'])))
+    # print('{}'.format(pd.crosstab(train_df['Title'], train_df['Sex'])))
 
-    print('{}'.format(train_df[['Title', 'Survived']].groupby(['Title'], as_index=False).mean()))
+    # print('{}'.format(train_df[['Title', 'Survived']].groupby(['Title'], as_index=False).mean()))
     title_mapping = {"Mr": 1, "Miss": 2, "Mrs": 3, "Master": 4, "Rare": 5}
     for data_set in combine:
         data_set['Title'] = data_set['Title'].map(title_mapping)
         data_set['Title'] = data_set['Title'].fillna(0)
 
-    print('{}'.format(combine[0].head()))
+    # print('{}'.format(combine[0].head()))
 
     train_df.drop(train_df[['Name', 'PassengerId']], axis=1, inplace=True)
     test_df.drop(test_df[['Name']], axis=1, inplace=True)
@@ -176,7 +176,7 @@ def main():
         dataset['IsAlone'] = 0
         dataset.loc[dataset['FamilySize'] == 1, 'IsAlone'] = 1
 
-    print('{}'.format(train_df.loc[train_df['IsAlone'] == 1, ['IsAlone']].count()))
+    # print('{}'.format(train_df.loc[train_df['IsAlone'] == 1, ['IsAlone']].count()))
 
     train_df = train_df.drop(['Parch', 'SibSp', 'FamilySize'], axis=1)
     test_df = test_df.drop(['Parch', 'SibSp', 'FamilySize'], axis=1)
@@ -189,24 +189,46 @@ def main():
     # print('{}'.format(train_df.head()))
     # print('{}'.format(train_df[['Age*Class', 'Survived']].groupby(['Age*Class'], as_index=False).mean()))
 
-    print('{}'.format(train_df[['Embarked', 'Survived']].groupby(['Embarked']).count()))
-    print('count of all: {}'.format(train_df.count()))
+    # print('{}'.format(train_df[['Embarked', 'Survived']].groupby(['Embarked']).count()))
+    # print('count of all: {}'.format(train_df.count()))
 
     most_freq_port = train_df.Embarked.dropna().mode()[0]
-    print('{}'.format(most_freq_port))
+    # print('{}'.format(most_freq_port))
 
     for dataset in combine:
         dataset['Embarked'] = dataset['Embarked'].fillna(most_freq_port)
 
     result = train_df[['Embarked', 'Survived']].groupby(['Embarked'], as_index=False).mean().sort_values(by='Survived',
                                                                                                          ascending=False)
-    print('{}'.format(result))
+    # print('{}'.format(result))
 
-#     converting embarked to numerical feature: S -> 0, C -> 1, Q -> 2
+    #     converting embarked to numerical feature: S -> 0, C -> 1, Q -> 2
     for dataset in combine:
         dataset['Embarked'] = dataset['Embarked'].map({'S': 0, 'C': 1, 'Q': 2}).astype(int)
 
+        # print('{}'.format(train_df.head()))
+
+        # print('nulls in fare train: {}'.format(train_df.Fare.isnull().sum()))
+        # print('nulls in fare test: {}'.format(test_df.Fare.isnull().sum()))
+    #         only one missing value for fare in test_df, so we can replace that with median
+    test_df['Fare'].fillna(test_df['Fare'].dropna().median(), inplace=True)
+    # print('nulls in fare test: {}'.format(test_df.Fare.isnull().sum()))
+    # print('{}'.format(test_df.head()))
+    train_df['FareBand'] = pd.qcut(train_df['Fare'], 4)
+    # print(train_df[['FareBand', 'Survived']].groupby(['FareBand'], as_index=False).mean().sort_values(by='FareBand', ascending=True))
+#     assigning fareband ordinal values based on ranges
+    for dataset in combine:
+        dataset.loc[dataset['Fare'] <= 7.91, 'Fare'] = 0
+        dataset.loc[(dataset['Fare'] > 7.91) & (dataset['Fare'] <= 14.454), 'Fare'] = 1
+        dataset.loc[(dataset['Fare'] > 14.454) & (dataset['Fare'] <= 31), 'Fare'] = 2
+        dataset['Fare'] = dataset['Fare'].astype(int)
+
+    train_df = train_df.drop(['FareBand'], axis=1)
     print('{}'.format(train_df.head()))
+    combine = [train_df, test_df]
+
+
+
 
 if __name__ == '__main__':
     pd.set_option('display.width', 300)
